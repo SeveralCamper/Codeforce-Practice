@@ -8,45 +8,49 @@
 #include <functional>
 
 int main () {
-    int t, * res_array = NULL;
+    int t;
     std::cin >> t;
-    if (1 <= t <= 720) {
-        int iter = 1;
-        bool flag = 1;
-        while(t--) {
-            int r = 0, g = 0, b = 0;
-            flag = 1;
-            std::string string;
-            std::cin >> string;
-            for (int i = 0; i < string.size(); i++) {
-                if (i == 0 && (string[i] == 'R' || string[i] == 'G' || string[i] == 'B')) {
-                    flag = 0;
+    if (1 <= t <= 48) {
+        while (t--) {
+            int length;
+            std::cin >> length;
+            if (3 <= length <= 50) {
+                int p = length * length;
+
+                std::vector <int> array(p);
+                for (int i = 0; i < length; i++) {
+                    array[i] = i + 2;
                 }
 
-                if (string[i] == 'R' && r < 1 || string[i] == 'G' && g < 1 || string[i] == 'B' && b < 1) {
-                    flag = 0;
+                for (int i = length - 1; i < array.size(); i++) {
+                    array[i] = array[i % (length - 1)];
+                }
+                
+                for (int i = length; i > 1; i--) {
+                    if (i == length) {
+                        std::cout << 1 << ' ';
+                    }
+                    std::cout << i << ' ';
+
+                    if (i == 2) {
+                        std::cout << std::endl;
+                    }
                 }
 
-                if (string[i]=='r') r++;
-                if (string[i]=='g') g++;
-                if (string[i]=='b') b++;
-                if (string[i]=='R') r--;
-                if (string[i]=='G') g--;
-                if (string[i]=='B') b--;
-            }
-
-            res_array = (int *)realloc(res_array, (iter + 1) * sizeof(int));
-            res_array[iter] = flag;
-            iter++;            
-        }
-
-        for (int i = 1; i < iter; i++) {
-            if (res_array[i] == 1) {
-                std::cout << "YES" << std::endl;
+                for (int i = 0; i < length - 1; i++) {
+                    for (int j = 0; j < length - 1; j++) {
+                        std::cout << array[j + i] << ' ';
+                        if (j == length - 2) {
+                            std::cout << 1 << std::endl;
+                        }
+                    }
+                }
             } else {
-                std::cout << "NO" << std::endl;
+                break;
             }
         }
+    } else {
+        return 0;
     }
 
     return 0;
